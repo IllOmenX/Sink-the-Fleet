@@ -1,4 +1,5 @@
 import utils as u
+import numpy as np
 '''
 ¿Why 
 board = u.Board
@@ -9,7 +10,7 @@ enemy_board = board.createBoard(board)
 if __name__ == '__main__':
     #Create the players (Human vs Machine)
     player = u.Player('Human')
-    machine = u.Player
+    machine = u.Player('Machine')
     
     #Create the boards
     board = u.Board
@@ -22,8 +23,24 @@ if __name__ == '__main__':
     
     #Game start...
     while ('O' in my_board or 'O' in enemy_board):
-        #My turn
-        u.shoot(player ,enemy_board)
+        #My Turn
+        while 1:
+            u.menu()
+            option = int(input("Choose option: "))
+            if option == 1:
+                u.shoot(player ,enemy_board)
+                break
+            elif option == 2:
+                print(my_board)
+                continue
+            elif option == 3:
+                print(np.char.replace(enemy_board,'O',u.water))
+                continue
+            elif option == 4:
+                exit()
+            else:
+                print("Option unrecognized")
+                continue
         
         #Enemy turn
         print('Enemy turn...')

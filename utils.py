@@ -33,6 +33,15 @@ class Ship:
         self.coordinates = []
         
 #Methods
+def menu():
+    print('''What you what to do?:
+          1. Shoot
+          2. Look at your board
+          3. Look enemy board
+          4. Exit
+          ''')
+
+
 def shoot(player: Player, board: Board):
     if player.kind == 'Human':
         row, col = [int(coord) for coord in input("Wich coords to shoot...: ").split()]
@@ -41,12 +50,13 @@ def shoot(player: Player, board: Board):
         col = random.randint(0,board_measure-1)
     
     if board[row, col] == 'O':
+        board[row, col] = 'X' #Ship hitted we turn O into X
         shoot(player, board)
         
 def createArmy(board: Board):
     army = []
     for i in ships.keys():
-        for num in range(ships[i][0]): #0 is the num_ships
+        for num in range(ships[i][0]): #0 is the num_ships in the ships dict
             new_ship = Ship(i + str(num), i)
             placeShip(new_ship, board)
             army.append(new_ship)
@@ -66,10 +76,10 @@ def placeShip(ship: Ship, board: Board):
             if orientation == 'N':
                 
                 if row - (ship.len -1) < 0:
-                    #Si row - (Ship.len -1) es menor que 0 significa que el barco se sale del Board por la parte norte
+                    #If row - (ship.len -1) is less than 0 it means that the ship goes off the board on the north side
                     continue
                 else:
-                    #Comprobamos si se puede colocar el barco
+                    #We check if the ship can be placed
                     for cell in range(ship.len):
                         if board[row-cell, col] == water:
                             placed = True
@@ -77,7 +87,7 @@ def placeShip(ship: Ship, board: Board):
                         else:
                             placed = False
                             break
-                    #Si se puede colocar el barco, lo colocamos y salimos del bucle
+                    #If the ship can be placed, we place it and exit the loop
                     if placed == True:
                         for cell in range(ship.len):
                             board[row-cell, col] = 'O'
@@ -87,10 +97,10 @@ def placeShip(ship: Ship, board: Board):
             elif orientation == 'E':
                 
                 if col + (ship.len -1) > board_measure-1:
-                    #Si col + (Ship.len -1) es mayor que 9 significa que el barco se sale del Board por la parte este
+                    #If col + (ship.len -1) is more than 9 it means that the ship goes off the board on the east side
                     continue
                 else:
-                    #Comprobamos si se puede colocar el barco
+                    #We check if the ship can be placed
                     for cell in range(ship.len):
                         if board[row, col+cell] == water:
                             placed = True
@@ -98,7 +108,7 @@ def placeShip(ship: Ship, board: Board):
                         else:
                             placed = False
                             break
-                    #Si se puede colocar el barco, lo colocamos y salimos del bucle
+                    #If the ship can be placed, we place it and exit the loop
                     if placed == True:
                         for cell in range(ship.len):
                             board[row, col+cell] = 'O'
@@ -108,10 +118,10 @@ def placeShip(ship: Ship, board: Board):
             if orientation == 'S':
                 
                 if row + (ship.len -1) > board_measure-1:
-                    #Si row + (Ship.len -1) es mayor que 9 significa que el barco se sale del Board por la parte sur
+                    #If row + (ship.len -1) is more than 9 it means that the ship goes off the board on the south side
                     continue
                 else:
-                    #Comprobamos si se puede colocar el barco
+                    #We check if the ship can be placed
                     for cell in range(ship.len):
                         if board[row+cell, col] == water:
                             placed = True
@@ -119,7 +129,7 @@ def placeShip(ship: Ship, board: Board):
                         else:
                             placed = False
                             break
-                    #Si se puede colocar el barco, lo colocamos y salimos del bucle
+                    #If the ship can be placed, we place it and exit the loop
                     if placed == True:
                         for cell in range(ship.len):
                             board[row+cell, col] = 'O'
@@ -129,10 +139,10 @@ def placeShip(ship: Ship, board: Board):
             elif orientation == 'W':
                 
                 if col - (ship.len -1) < 0:
-                    #Si col - (Ship.len -1) es menor que 0 significa que el barco se sale del Board por la parte oeste
+                    #If col - (ship.len -1) is less than 0 it means that the ship goes off the board on the west side
                     continue
                 else:
-                    #Comprobamos si se puede colocar el barco
+                    #We check if the ship can be placed
                     for cell in range(ship.len):
                         if board[row, col-cell] == water:
                             placed = True
@@ -140,7 +150,7 @@ def placeShip(ship: Ship, board: Board):
                         else:
                             placed = False
                             break
-                    #Si se puede colocar el barco, lo colocamos y salimos del bucle
+                    #If the ship can be placed, we place it and exit the loop
                     if placed == True:
                         for cell in range(ship.len):
                             board[row, col-cell] = 'O'
