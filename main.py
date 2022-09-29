@@ -22,11 +22,17 @@ if __name__ == '__main__':
     enemy_ships = u.createArmy(enemy_board)
     
     #Game start...
-    while ('O' in my_board or 'O' in enemy_board):
+    while (u.boat in my_board and u.boat in enemy_board):
         #My Turn
         while 1:
             u.menu()
-            option = int(input("Choose option: "))
+            while 1:
+                try:
+                    option = int(input("Choose option: "))
+                    break
+                except ValueError:
+                    print("Invalid option")
+                    pass
             if option == 1:
                 u.shoot(player ,enemy_board)
                 break
@@ -46,5 +52,6 @@ if __name__ == '__main__':
         #Enemy turn
         print('Enemy turn...')
         u.shoot(machine, my_board)
-
-    print(my_board)
+        
+    #End Game
+    u.endGame(my_board, enemy_board)

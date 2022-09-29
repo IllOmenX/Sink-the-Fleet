@@ -2,10 +2,11 @@ import numpy as np
 import random
 
 #Constants
-water = '¬'
 board_measure = 10
+water = '¬'
 fail = '~'
-
+boat = 'O'
+boat_hit = 'X'
 #Dictionary
 #Each ship is separated as ship_kind: (num_ships, len_ship)
 ships = {'Little' : (4, 1),
@@ -34,6 +35,12 @@ class Ship:
         self.coordinates = []
         
 #Methods
+def endGame(board1: Board, board2: Board):
+    if boat in board1:
+        print('Player Wins')
+    else:
+        print('Machine Wins')
+        
 def menu():
     print('''What you what to do?:
           1. Shoot
@@ -44,16 +51,31 @@ def menu():
 
 def shoot(player: Player, board: Board):
     if player.kind == 'Human':
-        row, col = [int(coord) for coord in input("Wich coords to shoot...: ").split()]
-    else:
+        while 1:#Loop1 to make sure that the coords are inside the board
+            while 1:#Loop2 to make sure the coord format is well done
+                try:
+                    row, col = [int(coord) for coord in input("Wich coords to shoot, separated with a space...: ").split()]
+                    break #Loop2
+                except ValueError:
+                    print('Wrong coord format')
+            if (row < 0 or row > 9) or (col < 0 or col > 9):
+                print('Coords not in board, try again...')
+            else:
+                break #Loop1
+    else: #Machine shoot, random
         row = random.randint(0,board_measure-1)
         col = random.randint(0,board_measure-1)
     
-    if board[row, col] == 'O':
-        board[row, col] = 'X' #Ship hitted we turn O into X
+    if board[row, col] == boat:
+        print("You hit a ship")
+        board[row, col] = boat_hit #Ship hitted we turn O into X
         shoot(player, board)
-    elif board[row, col] == water:
+    elif board[row, col] == water: #Water hit
+        print("You hit the water")
         board[row, col] = fail
+    elif board[row, col] == boat_hit or board[row, col] == fail:
+        print('You already shooted there. Try again...')
+        shoot(player, board)
         
 def createArmy(board: Board):
     army = []
@@ -92,7 +114,7 @@ def placeShip(ship: Ship, board: Board):
                     #If the ship can be placed, we place it and exit the loop
                     if placed == True:
                         for cell in range(ship.len):
-                            board[row-cell, col] = 'O'
+                            board[row-cell, col] = boat
                             ship.coordinates.append([row-cell, col]) #We append the coordinates of the ship that we just placed
                         break
                     
@@ -113,7 +135,7 @@ def placeShip(ship: Ship, board: Board):
                     #If the ship can be placed, we place it and exit the loop
                     if placed == True:
                         for cell in range(ship.len):
-                            board[row, col+cell] = 'O'
+                            board[row, col+cell] = boat
                             ship.coordinates.append([row, col+cell]) #We append the coordinates of the ship that we just placed
                         break
                     
@@ -134,7 +156,7 @@ def placeShip(ship: Ship, board: Board):
                     #If the ship can be placed, we place it and exit the loop
                     if placed == True:
                         for cell in range(ship.len):
-                            board[row+cell, col] = 'O'
+                            board[row+cell, col] = boat
                             ship.coordinates.append([row+cell, col]) #We append the coordinates of the ship that we just placed
                         break
 
@@ -155,6 +177,6 @@ def placeShip(ship: Ship, board: Board):
                     #If the ship can be placed, we place it and exit the loop
                     if placed == True:
                         for cell in range(ship.len):
-                            board[row, col-cell] = 'O'
+                            board[row, col-cell] = boat
                             ship.coordinates.append([row, col-cell]) #We append the coordinates of the ship that we just placed
                         break
