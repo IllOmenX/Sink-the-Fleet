@@ -38,8 +38,10 @@ class Ship:
 def endGame(board1: Board, board2: Board):
     if boat in board1:
         print('Player Wins')
+        exit() #Game has ended we finish the game
     else:
         print('Machine Wins')
+        exit() #Game has ended we finish the game
         
 def menu():
     print('''What you what to do?:
@@ -69,6 +71,10 @@ def shoot(player: Player, board: Board):
     if board[row, col] == boat:
         print("You hit a ship")
         board[row, col] = boat_hit #Ship hitted we turn O into X
+        #Maybe that was the last shoot the player needed to destroy all ships, let's check and finish if there are not more ships
+        if boat not in board:
+            endGame()
+        #If there are still more boats we continue
         shoot(player, board)
     elif board[row, col] == water: #Water hit
         print("You hit the water")
