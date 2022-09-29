@@ -8,6 +8,8 @@ First day coding...
 
 Game implementation almost done 
 
+Exceptions done
+
 Need to search for bugs and **IMPROVE** the code a lot 
 
 The game works like is meant to work
