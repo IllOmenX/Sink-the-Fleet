@@ -2,8 +2,9 @@ import numpy as np
 import random
 
 #Constants
-water = '~'
+water = '¬'
 board_measure = 10
+fail = '~'
 
 #Dictionary
 #Each ship is separated as ship_kind: (num_ships, len_ship)
@@ -38,8 +39,7 @@ def menu():
           1. Shoot
           2. Look at your board
           3. Look enemy board
-          4. Exit
-          ''')
+          4. Exit''')
 
 
 def shoot(player: Player, board: Board):
@@ -52,6 +52,8 @@ def shoot(player: Player, board: Board):
     if board[row, col] == 'O':
         board[row, col] = 'X' #Ship hitted we turn O into X
         shoot(player, board)
+    elif board[row, col] == water:
+        board[row, col] = fail
         
 def createArmy(board: Board):
     army = []

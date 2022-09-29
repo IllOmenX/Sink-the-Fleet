@@ -34,7 +34,8 @@ if __name__ == '__main__':
                 print(my_board)
                 continue
             elif option == 3:
-                print(np.char.replace(enemy_board,'O',u.water))
+                print(enemy_board) #If you want to see the enemy ships coords
+                #print(np.char.replace(enemy_board,'O',u.water))
                 continue
             elif option == 4:
                 exit()
